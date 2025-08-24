@@ -1,0 +1,32 @@
+<!-- templates/core/assign.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Assign Developers | PixelForge</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container mt-5">
+        <h3>Assign Developers to "{{ project.name }}"</h3>
+        <form method="post">
+            {% csrf_token %}
+            <div class="mb-3">
+                {% for developer in developers %}
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" name="developers" value="{{ developer.id }}"
+                               id="dev{{ developer.id }}" {% if developer.id in assigned %}checked{% endif %}>
+                        <label class="form-check-label" for="dev{{ developer.id }}">
+                            {{ developer.username }}
+                        </label>
+                    </div>
+                {% empty %}
+                    <p>No developers available.</p>
+                {% endfor %}
+            </div>
+            <button type="submit" class="btn btn-primary">Save Assignment</button>
+            <a href="{% url 'dashboard' %}" class="btn btn-secondary">Cancel</a>
+        </form>
+    </div>
+</body>
+</html>
